@@ -40,7 +40,7 @@ const Nav = () => {
           <li>Favorites</li>
         </Link>
         <Link to="/signin">
-          <li>Login</li>
+          <li>Sign In</li>
         </Link>
       </NavLinks>
     </NavBar>

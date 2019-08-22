@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { AuthProvider } from './Auth';
 import Nav from './Nav';
 import Home from './Home';
 import Signin from './Signin';
 import Favorites from './Favorites';
 import Favorite from './Favorite';
 
-const AppWrapper = styled.div`
+export const AppWrapper = styled.div`
   max-width: 1000px;
   width: 90%;
   margin: 0 auto;
@@ -16,7 +18,7 @@ const AppWrapper = styled.div`
 const App = () => {
   const [loggedIn, setLoggedInState] = useState(false);
   return (
-    <AppWrapper>
+    <AuthProvider>
       <Router>
         <Nav loggedIn={loggedIn} setLoggedInState={setLoggedInState} />
         <Switch>
@@ -26,7 +28,7 @@ const App = () => {
           <Route exact path="/favorite/:id" component={Favorite} />
         </Switch>
       </Router>
-    </AppWrapper>
+    </AuthProvider>
   );
 };
 
