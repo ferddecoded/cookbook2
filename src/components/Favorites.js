@@ -1,22 +1,22 @@
 import React, { useContext } from 'react';
-import { AuthContext } from './Auth';
+import { AppContext } from './Context';
 import SignInModal from './SignInModal';
 
 const Favorites = ({ history }) => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AppContext);
 
   const redirectToSignIn = () => {
     history.push('/signin');
   };
 
-  const delayReirectToSignIn = () => {
+  const delayRedirectToSignIn = () => {
     setTimeout(() => {
       redirectToSignIn();
     }, 3000);
   };
 
   if (!currentUser) {
-    delayReirectToSignIn();
+    delayRedirectToSignIn();
     return <SignInModal redirectToSignIn={redirectToSignIn} />;
   }
   return <div>Favorites</div>;

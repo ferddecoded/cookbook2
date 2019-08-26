@@ -10,6 +10,7 @@ const ModalWrapper = styled.section`
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.25);
+  z-index: 999;
 `;
 
 const Modal = styled.div`
@@ -29,6 +30,10 @@ const ModalHeader = styled.header`
   background-color: rgb(240, 203, 55);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+
+  h2 {
+    font-family: 'Pacifico';
+  }
 `;
 
 const ModalBody = styled.div`
@@ -49,7 +54,9 @@ const SignInModal = ({ redirectToSignIn }) => {
   return (
     <ModalWrapper>
       <Modal>
-        <ModalHeader>OOPS ...</ModalHeader>
+        <ModalHeader>
+          <h2>OOPS ...</h2>
+        </ModalHeader>
         <ModalBody>
           <span>You must be signed in first</span>
           <button onClick={redirectToSignIn}>Go To Sign In</button>
