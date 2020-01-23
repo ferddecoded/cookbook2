@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { AppWrapper } from './App';
 import SearchForm from './SearchForm';
+import { AppContext } from './Context';
+import RecipeItems from './RecipeItems';
 
 const Main = styled.main`
   padding: 0;
@@ -33,6 +35,7 @@ const IntroductorySection = styled.section`
 `;
 
 const Home = () => {
+  const { searchRecipes, recipes } = useContext(AppContext);
   return (
     <Main>
       <HeroContainer>
@@ -47,7 +50,8 @@ const Home = () => {
           </IntroductorySection>
         </AppWrapper>
       </HeroContainer>
-      <SearchForm />
+      <SearchForm searchRecipes={searchRecipes} />
+      <RecipeItems recipes={recipes} />
     </Main>
   );
 };
