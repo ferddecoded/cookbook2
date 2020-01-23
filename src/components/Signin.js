@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
 import firebase from './Firebase';
+import { AppContext } from './Context';
 
 const Signin = () => {
+  const { setCurrentUser, currentUser } = useContext(AppContext);
   const logIn = () => {
     console.log('logging in');
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -16,9 +19,7 @@ const Signin = () => {
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then(user => {
-        console.log(user);
-      })
+      .then((user) => setCurrentUser(user))
       .catch(err => console.error(Error(err)));
   };
 
@@ -27,8 +28,7 @@ const Signin = () => {
   };
   return (
     <div>
-      <button onClick={logIn}>Sign In</button>
-      <button onClick={logOut}>Sign Out</button>
+      {currentUser ? <button onClick={logOut}>Sign Out</button> : <button onClick={logIn}>Sign In</button>}
     </div>
   );
 };

@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
+
+const BodyScrollPreventer = createGlobalStyle`
+  body {
+    overflow: hidden;
+  }
+`;
 
 const NavBar = styled.header`
   display: flex;
@@ -29,10 +35,13 @@ const NavBar = styled.header`
     margin-left: auto;
     list-style: none;
     width: 50%;
-    a {
-      color: ${props => props.theme.black};
+    li {
       text-align: center;
-      text-decoration: none;
+      a {
+        color: ${props => props.theme.black};
+        text-align: center;
+        text-decoration: none;
+      }
     }
   }
 
@@ -103,6 +112,7 @@ const Nav = () => {
   const [navOpen, setNavOpen] = useState(false);
   return (
     <NavBar>
+      {navOpen && <BodyScrollPreventer />}
       <h2>Search, Shop, Dine</h2>
       <ul className={navOpen ? 'open' : ''}>
         <li className={navOpen ? 'fade' : ''}>
@@ -119,7 +129,7 @@ const Nav = () => {
 
         <li className={navOpen ? 'fade' : ''}>
           <Link to="/signin" onClick={() => setNavOpen(!navOpen)}>
-            Sign In
+            Account
           </Link>
         </li>
       </ul>

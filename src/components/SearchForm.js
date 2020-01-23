@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import { AppWrapper } from './App';
 
 const Form = styled.form`
+  @media(max-width: 450px) {
+    top: 100px;
+  }
   position: relative;
   width: 100%;
   transform: translate(-50%, -20%);
@@ -58,7 +61,7 @@ const SelectContainer = styled.span`
 const Button = styled.button`
   padding: 10px 15px;
   border-radius: 10px;
-  margin: 10px 0px;
+  margin: 20px 0px;
   font-family: 'Arimo';
   background-color: ${props => props.theme.primary};
   color: ${props => props.theme.secondary};
@@ -80,7 +83,7 @@ const TextInput = styled.input`
   border-radius: 5px;
 `;
 
-const SearchForm = () => {
+const SearchForm = ({ searchRecipes }) => {
   const [ingredient, setIngredient] = useState('');
   const [dietary, setDietary] = useState('');
   const [selectedHealth, setSelectedHealth] = useState([]);
@@ -105,6 +108,11 @@ const SearchForm = () => {
     const dietaryBeenSet = dietary === e.target.id;
     console.log(dietaryBeenSet);
     dietaryBeenSet ? setDietary('') : setDietary(e.target.id);
+  };
+
+  const requestRcipes = e => {
+    e.preventDefault();
+    searchRecipes(ingredient, dietary, selectedHealth);
   };
 
   const health = [
@@ -182,14 +190,7 @@ const SearchForm = () => {
               ))}
             </FormGroup>
           </div>
-          <Button
-            onClick={e => {
-              e.preventDefault();
-              console.log({ ingredient, selectedHealth, dietary });
-            }}
-          >
-            Search It!
-          </Button>
+          <Button onClick={requestRcipes}>Search It!</Button>
         </FormBody>
       </Form>
     </AppWrapper>
