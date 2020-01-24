@@ -4,9 +4,6 @@ import styled from 'styled-components';
 import { AppWrapper } from './App';
 
 const Form = styled.form`
-  @media(max-width: 450px) {
-    top: 100px;
-  }
   position: relative;
   width: 100%;
   transform: translate(-50%, -20%);
@@ -14,6 +11,10 @@ const Form = styled.form`
   background-color: white;
   left: 50%;
   box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+
+  @media(max-width: 450px) {
+    top: 50px;
+  }
 `;
 
 const FormHeader = styled.header`

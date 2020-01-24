@@ -5,15 +5,7 @@ import firebase from './Firebase';
 
 export const AppContext = React.createContext();
 
-export const AppProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [recipes, setFetchedRecipes] = useState(null);
-
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged(setCurrentUser);
-  }, []);
-
-  const searchRecipes = async (
+const fetchRecipes = async (
     ingredient = '',
     dietarySelection = null,
     healthOptionsArray = [],
@@ -34,11 +26,31 @@ export const AppProvider = ({ children }) => {
     const searchQueryUrl = `${searchRecipesUrl}${ingredientQuery}${appId}${appKey}${dietQuery}${healthQuery}`;
 
     const response = await axios.get(searchQueryUrl);
-    setFetchedRecipes(response.data.hits);
+    return response;
   };
 
+export const AppProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [recipes, setFetchedRecipes] = useState(null);
+  const [currentRecipe, setCurrentRecipe] = useState({});
+
+  const searchRecipes = async (ingredient, dietarySelection, healthOptionsArray) => {
+    const fetchedRecipes = await fetchRecipes(ingredient, dietarySelection, healthOptionsArray);
+    setFetchedRecipes(fetchedRecipes.data.hits);
+  };
+
+  const updateCurrentRecipe = (recipeItem) => {
+    setCurrentRecipe(recipeItem);
+  };
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(setCurrentUser);
+  }, []);
+
+  const contextValue = { currentUser, recipes, searchRecipes, setCurrentUser, currentRecipe, updateCurrentRecipe };
+
   return (
-    <AppContext.Provider value={{ currentUser, recipes, searchRecipes, setCurrentUser }}>
+    <AppContext.Provider value={contextValue}>
       {children}
     </AppContext.Provider>
   );

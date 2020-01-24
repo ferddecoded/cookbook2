@@ -1,14 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AppWrapper } from './App';
+
 import SearchItem from './SearchItem';
+
+const Wrapper = styled.div`
+  margin: 20px auto;
+  width: 90%;
+`;
 
 const NoResultsContainer = styled('div')`
   margin: 20px 0px;
   padding: 20px 0px;
   width: 100%;
-  background-color: ${({ theme }) => theme.lightgrey};
   color: grey;
+  background-color: ${({ theme }) => theme.lightgrey};
   border-radius: 10px;
   text-align: center;
 `;
@@ -26,6 +31,9 @@ const Container = styled('section')`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  background-color: ${({ theme }) => theme.lightgrey};
+  border-radius: 10px;
+  padding: 20px;
 `;
 
 const RecipeContainer = styled.div`
@@ -48,20 +56,20 @@ const RecipeItems = ({ recipes }) => {
   if (!recipes || !recipes.length) {
     content = <NoResults />;
   }else {
-    content = recipes.map((recipe) => {
+    content = recipes.map((recipe, i) => {
           return (
             <RecipeContainer>
-              <SearchItem item={recipe} />
+              <SearchItem item={recipe} key={i} />
             </RecipeContainer>
           );
         })
   }
   return (
-    <AppWrapper>
+    <Wrapper>
       <Container>
         {content}
       </Container>
-    </AppWrapper>
+    </Wrapper>
   );
 };
 

@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { AppContext } from './Context';
 
 const Container = styled.div`
   border-radius: 10px;
   box-shadow: ${({ theme }) => theme.bs};
   overflow: hidden;
+  border: 5px solid transparent;
+  transition: .3s all;
+  background-color: ${({ theme }) => theme.white};
+
+  &:hover {
+    border: 5px solid ${({ theme }) => theme.primary};
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -24,8 +33,10 @@ const ImageContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
+  height:100%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  object-fit: cover;
 `;
 
 const OverlayContainer = styled.div`
@@ -62,13 +73,13 @@ const LabelText = styled.h3`
 
 const TextContainer = styled.div`
   width: 100%;
-  padding: 20px;
+  padding: 5px 20px;
   display: flex;
     flex-direction: column;
     justify-content: space-around;
 
   @media (max-width: 768px) {
-    height: 120px;
+    height: 100px;
   }
 `;
 
@@ -91,6 +102,7 @@ const NutritionText = styled.div`
   font-size: 10px;
   display: flex;
   justify-content: space-between;
+  height: 100%;
 `;
 
 const NutritionLabel = styled.span`
@@ -99,8 +111,14 @@ const NutritionLabel = styled.span`
   display: inline-block;
 `;
 
+const NutritionValue = styled.span`
+  display: block;
+`;
+
 const SearchItem = ({ item }) => {
   const [isHovered, setHovered] = useState(false);
+  const { updateCurrentRecipe }  = useContext(AppContext);
+
   if (!item) {
     return null;
   }
@@ -109,13 +127,13 @@ const SearchItem = ({ item }) => {
   const nutritionHtml = (calories, totalTime) => {
     return(
       <NutritionText>
-        <div><NutritionLabel>Calories:</NutritionLabel>&nbsp;{Math.round(calories)}&nbsp;cals</div>
-        <div><NutritionLabel>Total Time:</NutritionLabel>&nbsp;{totalTime}&nbsp;mins</div>
+        <div><NutritionLabel>Calories:</NutritionLabel><NutritionValue>&nbsp;{Math.round(calories)}&nbsp;cals</NutritionValue></div>
+        <div><NutritionLabel>Total Time:</NutritionLabel><NutritionValue>&nbsp;{totalTime}&nbsp;mins</NutritionValue></div>
       </NutritionText>
     );
   };
   return (
-    <NavLink to={`/recipeItem/`}>
+    <NavLink to={`/recipeItem/`} onClick={() => updateCurrentRecipe(item.recipe)}>
       <Container>
         <ImageContainer
           onMouseEnter={() => setHovered(true)}
