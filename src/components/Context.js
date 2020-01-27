@@ -43,11 +43,16 @@ export const AppProvider = ({ children }) => {
     setCurrentRecipe(recipeItem);
   };
 
+  const toggleRecipe = (recipeItem) => {
+    console.log(recipeItem);
+    const dbRefUser = firebase.database().ref(`users/${firebase.auth().currentUser.uid}`);
+  };
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setCurrentUser);
   }, []);
 
-  const contextValue = { currentUser, recipes, searchRecipes, setCurrentUser, currentRecipe, updateCurrentRecipe };
+  const contextValue = { currentUser, recipes, searchRecipes, setCurrentUser, currentRecipe, updateCurrentRecipe, toggleRecipe };
 
   return (
     <AppContext.Provider value={contextValue}>

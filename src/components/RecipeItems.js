@@ -38,7 +38,6 @@ const RecipeContainer = styled.div`
   margin: 0px 20px 20px;
   @media (max-width: 1100px) {
   width: calc(33.33% - 40px);
-  height: 300px;
   }
   @media (max-width: 768px) {
     width: calc(50% - 40px);

@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 
+import firebase from './Firebase';
 import { AppContext } from './Context';
-import IngredientCheckbox from './IngredientChecbox';
+import IngredientCheckbox from './IngredientCheckbox';
 
 const StyledAppWrapper = styled.div`
   max-width: 1000px;
@@ -67,6 +68,9 @@ const RecipeItem = () => {
   if (Object.keys(currentRecipe).length === 0 && currentRecipe.constructor === Object) {
     return null;
   }
+
+  const dbRefUser = firebase.database().ref(`users/${firebase.auth().currentUser.uid}`);
+  console.log({ dbRefUser });
 
   const { label, image, source, url, dietLabels, healthLabels, ingredientLines, calories, totalTime, totalNutrients } = currentRecipe;
   return (
