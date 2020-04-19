@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import { AppContext } from './Context';
 import SignInModal from './SignInModal';
 
+import FavoriteItem from './FavoriteItem';
+
 const Favorites = ({ history }) => {
   const { currentUser } = useContext(AppContext);
 
@@ -19,7 +21,7 @@ const Favorites = ({ history }) => {
     delayRedirectToSignIn();
     return <SignInModal redirectToSignIn={redirectToSignIn} />;
   }
-  return <div>Favorites</div>;
+  return <FavoriteItem />;
 };
 
 export default Favorites;

@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import firebase from './Firebase';
 import { AppContext } from './Context';
 import IngredientCheckbox from './IngredientCheckbox';
+import Link from './Link';
+import Image from './Image';
 
 const StyledAppWrapper = styled.div`
   max-width: 1000px;
@@ -46,6 +48,7 @@ const RecipeContainer = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
+    padding: 20px 0px;
   }
 `;
 
@@ -62,14 +65,12 @@ const ImageContainer = styled.div`
   }
 `;
 
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-`;
-
 const TextContainer = styled.div`
   padding: 10px 20px;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
 
 const RecipeHeading = styled.h2`
@@ -86,18 +87,6 @@ const IngredientList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   margin: 0;
-`;
-
-const StyledLink = styled.a`
-  font-size: ${({ theme }) => theme.link.fontSize};
-  font-weight: ${({ theme }) => theme.link.fontWeight};
-
-  text-decoration: none;
-  color: ${({ theme }) => theme.secondary};
-
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
 const RecipeItem = () => {
@@ -160,7 +149,7 @@ const RecipeItem = () => {
                 );
               })}
             </IngredientList>
-            <StyledLink href={url}>View Recipe ></StyledLink>
+            <Link href={url}>View Recipe ></Link>
           </TextContainer>
         </RecipeContainer>
       </Container>
