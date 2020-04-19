@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app';
 // we import auth in order to allow for authentication
 import 'firebase/auth';
+import 'firebase/database';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {

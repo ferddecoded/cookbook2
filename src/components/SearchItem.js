@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { AppContext } from './Context';
+import firebase from './Firebase';
 
 const Container = styled.div`
   border-radius: 10px;
   box-shadow: ${({ theme }) => theme.bs};
   overflow: hidden;
+  border: 5px solid transparent;
+  transition: .3s all;
+  background-color: ${({ theme }) => theme.white};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &:hover {
+    border: 5px solid ${({ theme }) => theme.primary};
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -24,8 +37,10 @@ const ImageContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
+  height:100%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  object-fit: cover;
 `;
 
 const OverlayContainer = styled.div`
@@ -62,20 +77,16 @@ const LabelText = styled.h3`
 
 const TextContainer = styled.div`
   width: 100%;
-  padding: 20px;
+  padding: 5px 20px;
   display: flex;
     flex-direction: column;
     justify-content: space-around;
-
-  @media (max-width: 768px) {
-    height: 120px;
-  }
 `;
 
 const MobileLabelContainer = styled.div`
     background-color: ${({ theme }) => theme.primary};
-    border-radius: 10px;
     display: none;
+    margin: 10px 0px;
 
     @media (max-width: 450px) {
       display: block;
@@ -88,34 +99,61 @@ const MobileLabel = styled.h3`
 `;
 
 const NutritionText = styled.div`
-  font-size: 10px;
+  font-size: 14px;
   display: flex;
   justify-content: space-between;
+  height: 100%;
 `;
 
 const NutritionLabel = styled.span`
-  font-size: 14px;
-  text-decoration: underline wavy ${({ theme }) => theme.secondary};
+  font-size: 18px;
   display: inline-block;
+  font-weight: bold;
+`;
+
+const NutritionValue = styled.span`
+  display: block;
+`;
+
+const ToggleRecipeButton = styled.button`
+  border-radius: 10px;
+  padding: 5px 15px;
+  border: none;
+  color: white;
+  background-color: ${({ theme }) => theme.secondary};
+  margin: 10px 0px;
 `;
 
 const SearchItem = ({ item }) => {
   const [isHovered, setHovered] = useState(false);
+  const { updateCurrentRecipe, toggleRecipe }  = useContext(AppContext);
+  
   if (!item) {
     return null;
   }
+
   const { label, image, source, url, dietLabels, healthLabels, ingredientLines, calories, totalTime, totalNutrients } = item.recipe;
 
   const nutritionHtml = (calories, totalTime) => {
     return(
       <NutritionText>
-        <div><NutritionLabel>Calories:</NutritionLabel>&nbsp;{Math.round(calories)}&nbsp;cals</div>
-        <div><NutritionLabel>Total Time:</NutritionLabel>&nbsp;{totalTime}&nbsp;mins</div>
+        <div><NutritionLabel>Calories:</NutritionLabel><NutritionValue>&nbsp;{Math.round(calories)}&nbsp;cals</NutritionValue></div>
+        <div><NutritionLabel>Total Time:</NutritionLabel><NutritionValue>&nbsp;{totalTime}&nbsp;mins</NutritionValue></div>
       </NutritionText>
     );
   };
+
+  const toggleRecipeHandler = (recipeItem) => {
+    recipeItem.ingredientLines.map(ingredient => {
+      return {
+        ingredient,
+        completed: false,
+      };
+    });
+    toggleRecipe(recipeItem);
+  };
   return (
-    <NavLink to={`/recipeItem/`}>
+    <NavLink to={`/recipeItem/`} onClick={() => updateCurrentRecipe(item.recipe)}>
       <Container>
         <ImageContainer
           onMouseEnter={() => setHovered(true)}
@@ -138,6 +176,7 @@ const SearchItem = ({ item }) => {
           <MobileLabelContainer><MobileLabel>{label}</MobileLabel></MobileLabelContainer>
           {nutritionHtml(calories, totalTime)}
         </TextContainer>
+        <ToggleRecipeButton onClick={() => toggleRecipeHandler({...item.recipe})}>Add Recipe</ToggleRecipeButton>
       </Container>
     </NavLink>
   );

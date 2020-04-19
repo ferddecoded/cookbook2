@@ -41,6 +41,8 @@ const NavBar = styled.header`
         color: ${props => props.theme.black};
         text-align: center;
         text-decoration: none;
+        font-weight: bold;
+        font-size: 20px;
       }
     }
   }
@@ -60,6 +62,11 @@ const NavBar = styled.header`
       top: 50%;
       transform: translate(-5%, -50%);
       z-index: 99;
+      display: none;
+
+      @media(max-width: 768px) {
+        display: block;
+      }
     }
 
     ul {
@@ -112,28 +119,28 @@ const Nav = () => {
   const [navOpen, setNavOpen] = useState(false);
   return (
     <NavBar>
-      {navOpen && <BodyScrollPreventer />}
       <h2>Search, Shop, Dine</h2>
       <ul className={navOpen ? 'open' : ''}>
         <li className={navOpen ? 'fade' : ''}>
-          <Link to="/" onClick={() => setNavOpen(!navOpen)}>
+          <Link to="/" onClick={() => setNavOpen(false)}>
             Home
           </Link>
         </li>
 
         <li className={navOpen ? 'fade' : ''}>
-          <Link to="/favorites" onClick={() => setNavOpen(!navOpen)}>
+          <Link to="/favorites" onClick={() => setNavOpen(false)}>
             Favorites
           </Link>
         </li>
 
         <li className={navOpen ? 'fade' : ''}>
-          <Link to="/signin" onClick={() => setNavOpen(!navOpen)}>
+          <Link to="/signin" onClick={() => setNavOpen(false)}>
             Account
           </Link>
         </li>
       </ul>
       <div className="hamburger" onClick={() => setNavOpen(!navOpen)}>
+        {navOpen && <BodyScrollPreventer />}
         <div className="line" />
         <div className="line" />
         <div className="line" />

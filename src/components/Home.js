@@ -26,6 +26,7 @@ const IntroductorySection = styled.section`
     font-size: 40px;
     color: ${props => props.theme.secondary};
     margin-bottom: 20px;
+    line-height:1;
   }
 
   p {
