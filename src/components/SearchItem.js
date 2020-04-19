@@ -99,16 +99,16 @@ const MobileLabel = styled.h3`
 `;
 
 const NutritionText = styled.div`
-  font-size: 10px;
+  font-size: 14px;
   display: flex;
   justify-content: space-between;
   height: 100%;
 `;
 
 const NutritionLabel = styled.span`
-  font-size: 14px;
-  text-decoration: underline wavy ${({ theme }) => theme.secondary};
+  font-size: 18px;
   display: inline-block;
+  font-weight: bold;
 `;
 
 const NutritionValue = styled.span`

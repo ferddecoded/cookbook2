@@ -52,7 +52,14 @@ const theme = {
   offWhite: '#f7f7f7',
   maxWidth: '1000px',
   bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
-  opaquePrimary: 'rgb(102,53,218, .7)'
+  opaquePrimary: 'rgb(102,53,218, .7)',
+  label: {
+    fontSize: '12px',
+  },
+  link: {
+    fontSize: '14px',
+    fontWeight: 700,
+  },
 };
 
 const App = () => {

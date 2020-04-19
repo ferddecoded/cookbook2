@@ -17,7 +17,7 @@ const Input = styled.input`
 const Label = styled.label`
   position: relative;
   cursor: pointer;
-  font-size: 10px;
+  font-size: ${({ theme }) => theme.label.fontSize};
 
   &::before {
   content:'';
@@ -49,11 +49,14 @@ const Label = styled.label`
   `}
 `;
 
-const IngredientCheckbox = ({ id, checked }) => {
+const IngredientCheckbox = ({ id, checked, onChange, ingredientIndex }) => {
   return (
     <Container>
       <Input type="checkbox" checked={checked} id={id} />
-      <Label checked for={id}>{id}</Label>
+      <Label checked={checked} for={id} onClick={() => {
+        console.log('clicked');
+        onChange(ingredientIndex);
+      }}>{id}</Label>
     </Container>
   );
 };

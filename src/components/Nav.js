@@ -41,6 +41,8 @@ const NavBar = styled.header`
         color: ${props => props.theme.black};
         text-align: center;
         text-decoration: none;
+        font-weight: bold;
+        font-size: 20px;
       }
     }
   }
