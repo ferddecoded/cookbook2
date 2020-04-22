@@ -55,32 +55,31 @@ const IngredientList = styled.ul`
   margin: 0;
 `;
 
-const FavoriteItem = () => {
-  const [ingredientList, setIngredientList] = useState([]);
-  const { currentRecipe } = useContext(AppContext);
+const FavoriteItem = (recipe) => {
+    const dbRefUser = firebase.database().ref(`users/${firebase.auth()?.currentUser?.uid}`);
 
-  const { label, image, source, url, dietLabels, healthLabels, ingredientLines, calories, totalTime, totalNutrients } = currentRecipe;
+  // useEffect(() => {
+  //   if (ingredientLines) {
+  //     const ingredientsCheckList = ingredientLines?.map((ingredient) => ({name: ingredient, checked: false}));
+  //     const recipeKey = ingredientLines.join();
+  //     console.log({ recipeKey });
+  //     setIngredientList(ingredientsCheckList);
+  //   }
+  // }, [ingredientLines]);
 
-  const dbRefUser = firebase.database().ref(`users/${firebase.auth()?.currentUser?.uid}`);
+  // const updateIngrdientList = (index) => {
+  //   const updatedList = [...ingredientList];
+  //   updatedList[index].checked = !updatedList[index].checked;
+  //   setIngredientList(updatedList);
+  // };
 
-  useEffect(() => {
-    if (ingredientLines) {
-      const ingredientsCheckList = ingredientLines?.map((ingredient) => ({name: ingredient, checked: false}));
-      const recipeKey = ingredientLines.join();
-      console.log({ recipeKey });
-      setIngredientList(ingredientsCheckList);
-    }
-  }, [ingredientLines]);
-
-  const updateIngrdientList = (index) => {
-    const updatedList = [...ingredientList];
-    updatedList[index].checked = !updatedList[index].checked;
-    setIngredientList(updatedList);
-  };
-
-  if (Object.keys(currentRecipe).length === 0 && currentRecipe.constructor === Object) {
+  if (!recipe) {
     return null;
   }
+
+  console.log({ recipe });
+  
+  const { label, image, source, url, dietLabels, healthLabels, ingredientLines, calories, totalTime, totalNutrients } = recipe;
   
   return (
     <StyledAppWrapper>
@@ -97,9 +96,9 @@ const FavoriteItem = () => {
             </RecipeHeading>
             <IngredientHeading>Ingredients:</IngredientHeading>
             <IngredientList>
-              {ingredientList.map(({ name, checked }, i) => {
+              {recipe?.ingredientLines?.length > 0 && recipe.ingredientLines.map(({ name, checked }, i) => {
                 return (
-                  <IngredientCheckbox id={name} key={i.toString()} checked={checked} onChange={updateIngrdientList} ingredientIndex={i} />
+                  <IngredientCheckbox id={name} key={i.toString()} checked={checked} ingredientIndex={i} onChange={(value) => console.log(name, value)} />
                 );
               })}
             </IngredientList>

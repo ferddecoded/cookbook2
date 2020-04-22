@@ -54,7 +54,6 @@ const IngredientCheckbox = ({ id, checked, onChange, ingredientIndex }) => {
     <Container>
       <Input type="checkbox" checked={checked} id={id} />
       <Label checked={checked} for={id} onClick={() => {
-        console.log('clicked');
         onChange(ingredientIndex);
       }}>{id}</Label>
     </Container>

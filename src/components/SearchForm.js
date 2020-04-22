@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { AppWrapper } from './App';
+import Button from './Button';
 
 const Form = styled.form`
   position: relative;
@@ -34,6 +35,8 @@ const FormHeader = styled.header`
 const FormBody = styled.section`
   margin: 0 auto;
   width: 90%;
+  display: flex;
+  flex-direction: column;
 
   label {
     display: block;
@@ -59,21 +62,8 @@ const SelectContainer = styled.span`
     highlight ? theme.primary : theme.white};
 `;
 
-const Button = styled.button`
-  padding: 10px 15px;
-  border-radius: 10px;
-  margin: 20px 0px;
-  font-family: 'Arimo';
-  background-color: ${props => props.theme.primary};
-  color: ${props => props.theme.secondary};
-  border: none;
-  font-size: 16px;
-  font-weight: 700;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+const StyledButton = styled(Button)`
+  margin: 20px auto;
 `;
 
 const TextInput = styled.input`
@@ -191,7 +181,7 @@ const SearchForm = ({ searchRecipes }) => {
               ))}
             </FormGroup>
           </div>
-          <Button onClick={requestRcipes}>Search It!</Button>
+          <StyledButton onClick={requestRcipes}>Search It!</StyledButton>
         </FormBody>
       </Form>
     </AppWrapper>

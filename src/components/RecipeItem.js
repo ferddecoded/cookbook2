@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import _ from 'lodash';
 
-import firebase from './Firebase';
 import { AppContext } from './Context';
 import IngredientCheckbox from './IngredientCheckbox';
 import Link from './Link';
 import Image from './Image';
+import Button from './Button';
 
 const StyledAppWrapper = styled.div`
   max-width: 1000px;
@@ -90,9 +91,10 @@ const IngredientList = styled.ul`
 `;
 
 const RecipeItem = () => {
-  const [ingredientList, setIngredientList] = useState([]);
-  const { currentRecipe } = useContext(AppContext);
+  const [recipe, setRecipe] = useState({});
+  const { currentRecipe, userRecipes, addRecipe, currentUser, updateRecipe } = useContext(AppContext);
 
+  // get current recipe
   const { 
     label,
     image,
@@ -106,24 +108,51 @@ const RecipeItem = () => {
     totalNutrients,
   } = currentRecipe;
 
-  const dbRefUser = firebase.database().ref(`users/${firebase.auth()?.currentUser?.uid}`);
+  const id = currentRecipe.ingredientLines?.join().trim();
 
   useEffect(() => {
-    if (ingredientLines) {
-      const ingredientsCheckList = ingredientLines?.map((ingredient) => ({name: ingredient, checked: false}));
-      const recipeKey = ingredientLines.join();
-      console.log({ recipeKey });
-      setIngredientList(ingredientsCheckList);
+    if (currentRecipe?.ingredientLines && currentRecipe?.ingredientLines.length > 0) {
+      // define ingrdientItems array { name, checked = false }
+      const ingredientsCheckList = currentRecipe.ingredientLines?.map((ingredient) => ({name: ingredient, checked: false}));
+      
+      // set current recipe
+      setRecipe({ ...currentRecipe, ingredientLines: ingredientsCheckList, id });
     }
-  }, [ingredientLines]);
+  }, [currentRecipe, id]);
+
+  useEffect(() => {
+    // if user is logged in
+    if (userRecipes.length && currentRecipe?.id) {
+      // if logged in, check if recipeId is in user's database
+      const matchedRecipe = userRecipes.find((userRecipe) => userRecipe.id === currentRecipe.id);
+
+      if (matchedRecipe) {
+        // if exists, and is different than current update ingredientsLines array
+        if (!(_.isEqual(currentRecipe.ingredientLines, userRecipes.ingredientLines))) {
+          setRecipe(matchedRecipe);
+        }
+      }
+    }
+  }, [userRecipes, currentRecipe]);
 
   const updateIngrdientList = (index) => {
-    const updatedList = [...ingredientList];
-    updatedList[index].checked = !updatedList[index].checked;
-    setIngredientList(updatedList);
+    const updatedRecipe = {...recipe};
+    updatedRecipe.ingredientLines[index].checked = !updatedRecipe.ingredientLines[index].checked;
+    if (currentUser) {
+      updateRecipe(updatedRecipe);
+    } else {
+      setRecipe(updatedRecipe);
+    }
   };
 
-  if (Object.keys(currentRecipe).length === 0 && currentRecipe.constructor === Object) {
+
+  const onClick = () => {
+    if (!userRecipes.find((recipe) => recipe.id === id)) {
+      addRecipe(recipe);
+    }
+  };
+
+  if (!currentRecipe || (Object.keys(currentRecipe).length === 0 && currentRecipe.constructor === Object)) {
     return null;
   }
   
@@ -143,7 +172,7 @@ const RecipeItem = () => {
             </RecipeHeading>
             <IngredientHeading>Ingredients:</IngredientHeading>
             <IngredientList>
-              {ingredientList.map(({ name, checked }, i) => {
+              {recipe?.ingredientLines?.map(({ name, checked }, i) => {
                 return (
                   <IngredientCheckbox id={name} key={i.toString()} checked={checked} onChange={updateIngrdientList} ingredientIndex={i} />
                 );
@@ -151,6 +180,7 @@ const RecipeItem = () => {
             </IngredientList>
             <Link href={url}>View Recipe ></Link>
           </TextContainer>
+          <Button onClick={onClick}>Save Recipe</Button>
         </RecipeContainer>
       </Container>
     </StyledAppWrapper>

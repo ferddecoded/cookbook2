@@ -5,7 +5,7 @@ import SignInModal from './SignInModal';
 import FavoriteItem from './FavoriteItem';
 
 const Favorites = ({ history }) => {
-  const { currentUser } = useContext(AppContext);
+  const { currentUser, userRecipes } = useContext(AppContext);
 
   const redirectToSignIn = () => {
     history.push('/signin');
@@ -21,7 +21,7 @@ const Favorites = ({ history }) => {
     delayRedirectToSignIn();
     return <SignInModal redirectToSignIn={redirectToSignIn} />;
   }
-  return <FavoriteItem />;
+  return userRecipes.map((recipe) => <FavoriteItem {...recipe} />);
 };
 
 export default Favorites;

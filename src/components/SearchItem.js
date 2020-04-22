@@ -1,9 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { AppContext } from './Context';
-import firebase from './Firebase';
+
+import { NavLink } from 'react-router-dom';
+import Button from './Button';
+import Image from './Image';
+
 
 const Container = styled.div`
   border-radius: 10px;
@@ -35,12 +38,9 @@ const ImageContainer = styled.div`
   }
 `;
 
-const Image = styled.img`
-  width: 100%;
-  height:100%;
+const StyledImage = styled(Image)`
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  object-fit: cover;
 `;
 
 const OverlayContainer = styled.div`
@@ -115,13 +115,15 @@ const NutritionValue = styled.span`
   display: block;
 `;
 
-const ToggleRecipeButton = styled.button`
-  border-radius: 10px;
-  padding: 5px 15px;
-  border: none;
-  color: white;
-  background-color: ${({ theme }) => theme.secondary};
-  margin: 10px 0px;
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const ToggleRecipeButton = styled(Button)`
+  background-color: ${props => props.theme.secondary};
+  color: ${props => props.theme.white};
+  margin: 20px auto;
 `;
 
 const SearchItem = ({ item }) => {
@@ -153,32 +155,36 @@ const SearchItem = ({ item }) => {
     toggleRecipe(recipeItem);
   };
   return (
-    <NavLink to={`/recipeItem/`} onClick={() => updateCurrentRecipe(item.recipe)}>
-      <Container>
-        <ImageContainer
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          <Image
-            src={image}
-            alt={label}
-          />
-          {isHovered &&
-            <>
-              <OverlayContainer>
-                <LabelOverlay />
-                <LabelText>{label}</LabelText>
-              </OverlayContainer>
-            </>
-          }
-        </ImageContainer>
-        <TextContainer>
-          <MobileLabelContainer><MobileLabel>{label}</MobileLabel></MobileLabelContainer>
-          {nutritionHtml(calories, totalTime)}
-        </TextContainer>
+    <>
+      <NavLink to={`/recipeItem/`} onClick={() => updateCurrentRecipe(item.recipe)}>
+        <Container>
+          <ImageContainer
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          >
+            <StyledImage
+              src={image}
+              alt={label}
+            />
+            {isHovered &&
+              <>
+                <OverlayContainer>
+                  <LabelOverlay />
+                  <LabelText>{label}</LabelText>
+                </OverlayContainer>
+              </>
+            }
+          </ImageContainer>
+          <TextContainer>
+            <MobileLabelContainer><MobileLabel>{label}</MobileLabel></MobileLabelContainer>
+            {nutritionHtml(calories, totalTime)}
+          </TextContainer>
+        </Container>
+      </NavLink>
+      <ButtonContainer>
         <ToggleRecipeButton onClick={() => toggleRecipeHandler({...item.recipe})}>Add Recipe</ToggleRecipeButton>
-      </Container>
-    </NavLink>
+      </ButtonContainer>
+    </>
   );
 };
 
