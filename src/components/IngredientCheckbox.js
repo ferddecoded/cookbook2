@@ -3,6 +3,10 @@ import styled , { css} from 'styled-components';
 
 const Container = styled.li`
   flex-basis: 50%;
+
+  @media (max-width: 768px) {
+    flex-basis: 100%;
+  }
 `;
 
 const Input = styled.input`
@@ -18,6 +22,7 @@ const Label = styled.label`
   position: relative;
   cursor: pointer;
   font-size: ${({ theme }) => theme.label.fontSize};
+  color: 'black';
 
   &::before {
   content:'';

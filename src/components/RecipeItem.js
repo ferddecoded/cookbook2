@@ -91,9 +91,8 @@ const IngredientList = styled.ul`
 `;
 
 const RecipeItem = () => {
-  const [recipe, setRecipe] = useState({});
+  const [recipe, setRecipe] = useState(null);
   const { currentRecipe, userRecipes, addRecipe, currentUser, updateRecipe } = useContext(AppContext);
-
   // get current recipe
   const { 
     label,
@@ -108,47 +107,29 @@ const RecipeItem = () => {
     totalNutrients,
   } = currentRecipe;
 
-  const id = currentRecipe.ingredientLines?.join().trim();
-
   useEffect(() => {
-    if (currentRecipe?.ingredientLines && currentRecipe?.ingredientLines.length > 0) {
-      // define ingrdientItems array { name, checked = false }
-      const ingredientsCheckList = currentRecipe.ingredientLines?.map((ingredient) => ({name: ingredient, checked: false}));
-      
-      // set current recipe
-      setRecipe({ ...currentRecipe, ingredientLines: ingredientsCheckList, id });
+    if (currentRecipe) {
+      setRecipe(currentRecipe);
     }
-  }, [currentRecipe, id]);
-
-  useEffect(() => {
-    // if user is logged in
-    if (userRecipes.length && currentRecipe?.id) {
-      // if logged in, check if recipeId is in user's database
-      const matchedRecipe = userRecipes.find((userRecipe) => userRecipe.id === currentRecipe.id);
-
-      if (matchedRecipe) {
-        // if exists, and is different than current update ingredientsLines array
-        if (!(_.isEqual(currentRecipe.ingredientLines, userRecipes.ingredientLines))) {
-          setRecipe(matchedRecipe);
-        }
-      }
-    }
-  }, [userRecipes, currentRecipe]);
+  }, [currentRecipe]);
 
   const updateIngrdientList = (index) => {
     const updatedRecipe = {...recipe};
     updatedRecipe.ingredientLines[index].checked = !updatedRecipe.ingredientLines[index].checked;
-    if (currentUser) {
+    const userRecipeExists = userRecipes.find((recipe) => recipe.id === currentRecipe.id);
+    if (currentUser && userRecipeExists) {
       updateRecipe(updatedRecipe);
     } else {
       setRecipe(updatedRecipe);
     }
   };
 
-
   const onClick = () => {
-    if (!userRecipes.find((recipe) => recipe.id === id)) {
-      addRecipe(recipe);
+    if (currentUser) {
+      const userRecipeExists = userRecipes.find((recipe) => recipe.id === currentRecipe.id);
+      if (!userRecipeExists) {
+        addRecipe(recipe);
+      }
     }
   };
 

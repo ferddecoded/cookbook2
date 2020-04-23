@@ -36,7 +36,7 @@ const IntroductorySection = styled.section`
 `;
 
 const Home = () => {
-  const { searchRecipes, recipes } = useContext(AppContext);
+  const { searchRecipes, recipes, hasSearchError } = useContext(AppContext);
   return (
     <Main>
       <HeroContainer>
@@ -52,7 +52,7 @@ const Home = () => {
         </AppWrapper>
       </HeroContainer>
       <SearchForm searchRecipes={searchRecipes} />
-      <RecipeItems recipes={recipes} />
+      <RecipeItems recipes={recipes} hasSearchError={hasSearchError} />
     </Main>
   );
 };

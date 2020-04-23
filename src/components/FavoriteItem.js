@@ -1,11 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
-import firebase from './Firebase';
 import { AppContext } from './Context';
 import IngredientCheckbox from './IngredientCheckbox';
-import Link from './Link';
 import Image from './Image';
+import { NavLink } from 'react-router-dom';
 
 const StyledAppWrapper = styled.div`
   max-width: 1000px;
@@ -56,30 +55,13 @@ const IngredientList = styled.ul`
 `;
 
 const FavoriteItem = (recipe) => {
-    const dbRefUser = firebase.database().ref(`users/${firebase.auth()?.currentUser?.uid}`);
-
-  // useEffect(() => {
-  //   if (ingredientLines) {
-  //     const ingredientsCheckList = ingredientLines?.map((ingredient) => ({name: ingredient, checked: false}));
-  //     const recipeKey = ingredientLines.join();
-  //     console.log({ recipeKey });
-  //     setIngredientList(ingredientsCheckList);
-  //   }
-  // }, [ingredientLines]);
-
-  // const updateIngrdientList = (index) => {
-  //   const updatedList = [...ingredientList];
-  //   updatedList[index].checked = !updatedList[index].checked;
-  //   setIngredientList(updatedList);
-  // };
+  const { updateCurrentRecipe } = useContext(AppContext);
 
   if (!recipe) {
     return null;
   }
-
-  console.log({ recipe });
   
-  const { label, image, source, url, dietLabels, healthLabels, ingredientLines, calories, totalTime, totalNutrients } = recipe;
+  const { label, image } = recipe;
   
   return (
     <StyledAppWrapper>
@@ -97,12 +79,18 @@ const FavoriteItem = (recipe) => {
             <IngredientHeading>Ingredients:</IngredientHeading>
             <IngredientList>
               {recipe?.ingredientLines?.length > 0 && recipe.ingredientLines.map(({ name, checked }, i) => {
+                if (i > 3) {
+                  return null;
+                }
                 return (
-                  <IngredientCheckbox id={name} key={i.toString()} checked={checked} ingredientIndex={i} onChange={(value) => console.log(name, value)} />
+                  <IngredientCheckbox id={name} key={i.toString()} checked={checked} ingredientIndex={i} onChange={() => null} disabled />
                 );
               })}
             </IngredientList>
-            <Link href={url}>View More ></Link>
+            <NavLink to={`/recipeItem/`} onClick={() => {
+              const newRecipe = {...recipe};
+              updateCurrentRecipe(newRecipe);
+            }}>View More ></NavLink>
           </TextContainer>
         </FlexContainer>
       </Container>

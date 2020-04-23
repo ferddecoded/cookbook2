@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AppContext } from './Context';
-import SignInModal from './SignInModal';
+import SignInModal from './Modal';
 
 import FavoriteItem from './FavoriteItem';
 
@@ -19,7 +19,16 @@ const Favorites = ({ history }) => {
 
   if (!currentUser) {
     delayRedirectToSignIn();
-    return <SignInModal redirectToSignIn={redirectToSignIn} />;
+    return (<SignInModal
+        redirectToSignIn={redirectToSignIn}
+        headerContent={<h2>OOPS ...</h2>}
+        bodyContent={(
+          <>
+            <span>You must be signed in first</span>
+            <button onClick={redirectToSignIn}>Go To Sign In</button>
+          </>
+        )}
+    />);
   }
   return userRecipes.map((recipe) => <FavoriteItem {...recipe} />);
 };

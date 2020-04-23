@@ -13,7 +13,7 @@ const ModalWrapper = styled.section`
   z-index: 999;
 `;
 
-const Modal = styled.div`
+const ModalContainer = styled.div`
   position: absolute;
   top: 25%;
   left: 50%;
@@ -50,20 +50,19 @@ const ModalBody = styled.div`
   }
 `;
 
-const SignInModal = ({ redirectToSignIn }) => {
+const Modal = ({ headerContent, bodyContent }) => {
   return (
     <ModalWrapper>
-      <Modal>
+      <ModalContainer>
         <ModalHeader>
-          <h2>OOPS ...</h2>
+          {headerContent}
         </ModalHeader>
         <ModalBody>
-          <span>You must be signed in first</span>
-          <button onClick={redirectToSignIn}>Go To Sign In</button>
+          {bodyContent}
         </ModalBody>
-      </Modal>
+      </ModalContainer>
     </ModalWrapper>
   );
 };
 
-export default SignInModal;
+export default Modal;

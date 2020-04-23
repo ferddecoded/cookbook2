@@ -121,20 +121,24 @@ const ButtonContainer = styled.div`
 `;
 
 const ToggleRecipeButton = styled(Button)`
-  background-color: ${props => props.theme.secondary};
+  background-color: ${({ theme, userRecipeExists }) => userRecipeExists ? theme.red : theme.secondary};
   color: ${props => props.theme.white};
   margin: 20px auto;
 `;
 
 const SearchItem = ({ item }) => {
   const [isHovered, setHovered] = useState(false);
-  const { updateCurrentRecipe, toggleRecipe }  = useContext(AppContext);
+  const { updateCurrentRecipe, userRecipes, currentUser, addRecipe, removeRecipe }  = useContext(AppContext);
   
   if (!item) {
     return null;
   }
 
   const { label, image, source, url, dietLabels, healthLabels, ingredientLines, calories, totalTime, totalNutrients } = item.recipe;
+
+
+  const id = item.recipe.ingredientLines?.join().trim();
+  const userRecipeExists = userRecipes.find((userRecipe) => userRecipe.id === id);
 
   const nutritionHtml = (calories, totalTime) => {
     return(
@@ -145,15 +149,22 @@ const SearchItem = ({ item }) => {
     );
   };
 
-  const toggleRecipeHandler = (recipeItem) => {
-    recipeItem.ingredientLines.map(ingredient => {
-      return {
-        ingredient,
-        completed: false,
-      };
-    });
-    toggleRecipe(recipeItem);
+  const onClick = (recipe) => {
+    if (currentUser) {
+      if (!userRecipeExists) {
+        const updatedIngredientLines = recipe.ingredientLines.map(name => {
+          return {
+            name,
+            completed: false,
+          };
+        });
+        addRecipe({ ...recipe, ingredientLines: updatedIngredientLines, id });
+      } else {
+        removeRecipe(id);
+      }
+    }
   };
+
   return (
     <>
       <NavLink to={`/recipeItem/`} onClick={() => updateCurrentRecipe(item.recipe)}>
@@ -182,7 +193,7 @@ const SearchItem = ({ item }) => {
         </Container>
       </NavLink>
       <ButtonContainer>
-        <ToggleRecipeButton onClick={() => toggleRecipeHandler({...item.recipe})}>Add Recipe</ToggleRecipeButton>
+          <ToggleRecipeButton userRecipeExists={userRecipeExists} onClick={() => onClick(item.recipe)}>{userRecipeExists ? 'Remove Recipe' : 'Add Recipe'}</ToggleRecipeButton>
       </ButtonContainer>
     </>
   );

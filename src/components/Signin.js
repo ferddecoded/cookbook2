@@ -1,12 +1,41 @@
 import React, { useContext } from 'react';
+import styled from 'styled-components';
 
 import firebase from './Firebase';
 import { AppContext } from './Context';
+import Button from './Button';
+import Image from './Image';
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 66.66%;
+  margin: 20px auto;
+  background: ${({ theme }) => theme.white};
+  box-shadow: t${({ theme }) => theme.bs};
+  border-radius: 25px;
+`;
+
+const MessageContainer = styled.div`
+  margin: 20px 0px;
+  text-align: center;
+`;
+
+const ImageContainer = styled.div`
+  width: 400px;
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
 
 const Signin = () => {
   const { setCurrentUser, currentUser } = useContext(AppContext);
   const logIn = () => {
-    console.log('logging in');
     const provider = new firebase.auth.GoogleAuthProvider();
     //prompts user to select their acconut
     provider.setCustomParameters({
@@ -27,9 +56,15 @@ const Signin = () => {
     firebase.auth().signOut();
   };
   return (
-    <div>
-      {currentUser ? <button onClick={logOut}>Sign Out</button> : <button onClick={logIn}>Sign In</button>}
-    </div>
+    <Container>
+      <ImageContainer>
+        <Image src="/assets/cooking.png" />
+      </ImageContainer>
+      <MessageContainer>
+        <h2>Make sure to Sign In to save all of your favorite recipes and keep track of your checklists</h2>
+      </MessageContainer>
+      {currentUser ? <Button onClick={logOut}>Sign Out</Button> : <Button onClick={logIn}>Sign In</Button>}
+    </Container>
   );
 };
 

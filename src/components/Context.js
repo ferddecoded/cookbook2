@@ -25,7 +25,7 @@ const fetchRecipes = async (
 
     const searchQueryUrl = `${searchRecipesUrl}${ingredientQuery}${appId}${appKey}${dietQuery}${healthQuery}`;
 
-    const response = await axios.get(searchQueryUrl);
+    const response = await axios.get(searchQueryUrl).catch(err => ({ data: {  error: 'Oops, something went wrong with your search.', hits: [] }}));
     return response;
   };
 
@@ -34,14 +34,26 @@ export const AppProvider = ({ children }) => {
   const [recipes, setFetchedRecipes] = useState(null);
   const [currentRecipe, setCurrentRecipe] = useState({});
   const [userRecipes, setUserRecipes] = useState([]);
+  const [hasSearchError, setHasSearchError] = useState(null);
 
   const searchRecipes = async (ingredient, dietarySelection, healthOptionsArray) => {
-    const fetchedRecipes = await fetchRecipes(ingredient, dietarySelection, healthOptionsArray);
-    setFetchedRecipes(fetchedRecipes.data.hits);
+    setHasSearchError(null);
+    const { data } = await fetchRecipes(ingredient, dietarySelection, healthOptionsArray);
+    if (data.error) {
+      setHasSearchError(data.error);
+    } else {
+      setFetchedRecipes(data.hits);
+    }
   };
 
   const updateCurrentRecipe = (recipeItem) => {
-    setCurrentRecipe(recipeItem);
+    const id = recipeItem.ingredientLines?.join().trim();
+    const ingredientsCheckList = recipeItem.ingredientLines?.map((ingredient) => ({name: ingredient, checked: false}));
+    const reformattedRecipe = { ...recipeItem, ingredientLines: ingredientsCheckList, id };
+
+    const userRecipe = userRecipes.find(recipe => recipe.id === recipeItem.id);
+
+    userRecipe ? setCurrentRecipe(userRecipe) : setCurrentRecipe(reformattedRecipe);
   };
 
   const updateRecipe = (recipeItem) => {
@@ -63,6 +75,21 @@ export const AppProvider = ({ children }) => {
     dbRefUser.push(recipe).catch(err => console.warn(err));
   };
 
+  const removeRecipe = (id) => {
+    const dbRefUser = firebase.database().ref(`users/${firebase.auth().currentUser.uid}`);
+    dbRefUser.on("value", snapshot => {
+      const data = snapshot.val();
+      for (let key in data) {
+        if (data[key].id === id) {
+          firebase
+            .database()
+            .ref(`users/${firebase.auth().currentUser.uid}/${key}`)
+            .remove();
+        }
+      }
+    });
+  };
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setCurrentUser);
   }, []);
@@ -73,7 +100,6 @@ export const AppProvider = ({ children }) => {
         .database()
         .ref(`users/${firebase.auth()?.currentUser?.uid}`);
         dbref.on("value", snapshot => {
-          console.log(snapshot.val());
           const data = snapshot.val();
           const dbRecipes = [];
           for (let key in data) {
@@ -95,6 +121,8 @@ export const AppProvider = ({ children }) => {
     updateCurrentRecipe,
     updateRecipe,
     addRecipe,
+    hasSearchError,
+    removeRecipe,
   };
 
   return (

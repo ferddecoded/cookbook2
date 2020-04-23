@@ -44,7 +44,7 @@ const theme = {
   primary: '#f0cb37',
   secondary: '#6736dd',
   accentSecondary: '#bb9eff',
-  red: '#FF0000',
+  red: '#ff0002',
   black: '#393939',
   grey: '#3A3A3A',
   white: 'white',

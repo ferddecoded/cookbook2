@@ -18,10 +18,10 @@ const NoResultsContainer = styled('div')`
   text-align: center;
 `;
 
-const NoResults = () => {
+const NoResults = ({ message }) => {
   return(
     <NoResultsContainer>
-      Please Enter A Search
+      {message}
     </NoResultsContainer>
   );
 };
@@ -48,10 +48,10 @@ const RecipeContainer = styled.div`
   }
 `;
 
-const RecipeItems = ({ recipes }) => {
+const RecipeItems = ({ recipes, hasSearchError }) => {
   let content;
   if (!recipes || !recipes.length) {
-    content = <NoResults />;
+    content = <NoResults message={hasSearchError || 'Please Enter A Search'} />;
   }else {
     content = recipes.map((recipe, i) => {
           return (
