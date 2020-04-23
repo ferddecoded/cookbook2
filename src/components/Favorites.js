@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { AppContext } from './Context';
-import SignInModal from './Modal';
+import Modal from './Modal';
 
 import FavoriteItem from './FavoriteItem';
+import Button from './Button';
 
 const Favorites = ({ history }) => {
   const { currentUser, userRecipes } = useContext(AppContext);
@@ -19,13 +20,12 @@ const Favorites = ({ history }) => {
 
   if (!currentUser) {
     delayRedirectToSignIn();
-    return (<SignInModal
-        redirectToSignIn={redirectToSignIn}
+    return (<Modal
         headerContent={<h2>OOPS ...</h2>}
         bodyContent={(
           <>
-            <span>You must be signed in first</span>
-            <button onClick={redirectToSignIn}>Go To Sign In</button>
+            <h3>You must be signed in first!</h3>
+            <Button onClick={redirectToSignIn}>Go To Sign In</Button>
           </>
         )}
     />);

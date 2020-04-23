@@ -40,13 +40,15 @@ const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
 
-  justify-content: space-around;
-  align-items: center;
-  height: 100px;
+  justify-content: center;
+  align-content: center;
+  height: 150px;
   margin: 20px 0px 10px 0px;
+  text-align: center;
 
   button {
     width: 100px;
+    margin: 0 auto;
   }
 `;
 

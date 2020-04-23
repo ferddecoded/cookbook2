@@ -6,6 +6,7 @@ import { AppContext } from './Context';
 import { NavLink } from 'react-router-dom';
 import Button from './Button';
 import Image from './Image';
+import Modal from './Modal';
 
 
 const Container = styled.div`
@@ -128,6 +129,7 @@ const ToggleRecipeButton = styled(Button)`
 
 const SearchItem = ({ item }) => {
   const [isHovered, setHovered] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { updateCurrentRecipe, userRecipes, currentUser, addRecipe, removeRecipe }  = useContext(AppContext);
   
   if (!item) {
@@ -162,11 +164,22 @@ const SearchItem = ({ item }) => {
       } else {
         removeRecipe(id);
       }
+    } else {
+      setShowModal(!showModal);
     }
   };
 
   return (
     <>
+      {showModal && <Modal
+        headerContent={<h2>OOPS ...</h2>}
+        bodyContent={(
+          <>
+            <h3>You must be signed in first!</h3>
+            <Button onClick={() => setShowModal(false)}>Close</Button>
+          </>
+        )}
+      />}
       <NavLink to={`/recipeItem/`} onClick={() => updateCurrentRecipe(item.recipe)}>
         <Container>
           <ImageContainer
@@ -193,7 +206,12 @@ const SearchItem = ({ item }) => {
         </Container>
       </NavLink>
       <ButtonContainer>
-          <ToggleRecipeButton userRecipeExists={userRecipeExists} onClick={() => onClick(item.recipe)}>{userRecipeExists ? 'Remove Recipe' : 'Add Recipe'}</ToggleRecipeButton>
+          <ToggleRecipeButton
+            userRecipeExists={userRecipeExists}
+            onClick={() => onClick(item.recipe)}
+          >
+              {userRecipeExists ? 'Remove Recipe' : 'Add Recipe'}
+            </ToggleRecipeButton>
       </ButtonContainer>
     </>
   );

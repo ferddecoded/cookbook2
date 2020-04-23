@@ -7,6 +7,7 @@ import IngredientCheckbox from './IngredientCheckbox';
 import Link from './Link';
 import Image from './Image';
 import Button from './Button';
+import Modal from './Modal';
 
 const StyledAppWrapper = styled.div`
   max-width: 1000px;
@@ -90,9 +91,18 @@ const IngredientList = styled.ul`
   margin: 0;
 `;
 
+const ToggleRecipeButton = styled(Button)`
+  background-color: ${({ theme, userRecipeExists }) => userRecipeExists ? theme.red : theme.secondary};
+  color: ${props => props.theme.white};
+  margin: 20px auto;
+`;
+
 const RecipeItem = () => {
   const [recipe, setRecipe] = useState(null);
-  const { currentRecipe, userRecipes, addRecipe, currentUser, updateRecipe } = useContext(AppContext);
+  const [showModal, setShowModal] = useState(false);
+  const { currentRecipe, userRecipes, addRecipe, currentUser, updateRecipe, removeRecipe } = useContext(AppContext);
+  const userRecipeExists = userRecipes?.find((recipe) => recipe?.id === currentRecipe?.id);
+
   // get current recipe
   const { 
     label,
@@ -126,10 +136,13 @@ const RecipeItem = () => {
 
   const onClick = () => {
     if (currentUser) {
-      const userRecipeExists = userRecipes.find((recipe) => recipe.id === currentRecipe.id);
       if (!userRecipeExists) {
         addRecipe(recipe);
+      } else {
+        removeRecipe(currentRecipe.id);
       }
+    } else {
+      setShowModal(true);
     }
   };
 
@@ -138,33 +151,49 @@ const RecipeItem = () => {
   }
   
   return (
-    <StyledAppWrapper>
-      <Container>
-        <GraphicContainer />
-        <RecipeContainer>
-          <ImageContainer>
-            <Image
-              src={image}
-            />
-          </ImageContainer>
-          <TextContainer>
-            <RecipeHeading>
-              {label}
-            </RecipeHeading>
-            <IngredientHeading>Ingredients:</IngredientHeading>
-            <IngredientList>
-              {recipe?.ingredientLines?.map(({ name, checked }, i) => {
-                return (
-                  <IngredientCheckbox id={name} key={i.toString()} checked={checked} onChange={updateIngrdientList} ingredientIndex={i} />
-                );
-              })}
-            </IngredientList>
-            <Link href={url}>View Recipe ></Link>
-          </TextContainer>
-          <Button onClick={onClick}>Save Recipe</Button>
-        </RecipeContainer>
-      </Container>
-    </StyledAppWrapper>
+    <>
+      {showModal && <Modal
+        headerContent={<h2>OOPS ...</h2>}
+        bodyContent={(
+          <>
+            <h3>You must be signed in first!</h3>
+            <Button onClick={() => setShowModal(false)}>Close</Button>
+          </>
+        )}
+      />}
+      <StyledAppWrapper>
+        <Container>
+          <GraphicContainer />
+          <RecipeContainer>
+            <ImageContainer>
+              <Image
+                src={image}
+              />
+            </ImageContainer>
+            <TextContainer>
+              <RecipeHeading>
+                {label}
+              </RecipeHeading>
+              <IngredientHeading>Ingredients:</IngredientHeading>
+              <IngredientList>
+                {recipe?.ingredientLines?.map(({ name, checked }, i) => {
+                  return (
+                    <IngredientCheckbox id={name} key={i.toString()} checked={checked} onChange={updateIngrdientList} ingredientIndex={i} />
+                  );
+                })}
+              </IngredientList>
+              <Link href={url}>View Recipe ></Link>
+            </TextContainer>
+            <ToggleRecipeButton
+              onClick={onClick}
+              userRecipeExists={userRecipeExists}
+            >
+                {userRecipeExists? 'Remove Recipe' : 'Add Recipe'}
+            </ToggleRecipeButton>
+          </RecipeContainer>
+        </Container>
+      </StyledAppWrapper>
+    </>
   );
 };
 
