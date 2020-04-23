@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import firebase from './Firebase';
 import { AppContext } from './Context';
 import Button from './Button';
-import Image from './Image';
+import CookingSvg from './Cooking';
 
 const Container = styled.div`
   display: flex;
@@ -16,6 +16,7 @@ const Container = styled.div`
   background: ${({ theme }) => theme.white};
   box-shadow: t${({ theme }) => theme.bs};
   border-radius: 25px;
+  padding: 20px;
 `;
 
 const MessageContainer = styled.div`
@@ -30,6 +31,13 @@ const ImageContainer = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
+  }
+`;
+
+const StyledCookingSVG = styled(CookingSvg)`
+  svg {
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -58,10 +66,10 @@ const Signin = () => {
   return (
     <Container>
       <ImageContainer>
-        <Image src="/assets/cooking.png" />
+        <StyledCookingSVG />
       </ImageContainer>
       <MessageContainer>
-        <h2>Make sure to Sign In to save all of your favorite recipes and keep track of your checklists</h2>
+        <h3>Make sure to Sign In to save all of your favorite recipes and keep track of your checklists</h3>
       </MessageContainer>
       {currentUser ? <Button onClick={logOut}>Sign Out</Button> : <Button onClick={logIn}>Sign In</Button>}
     </Container>

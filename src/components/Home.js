@@ -13,7 +13,7 @@ const Main = styled.main`
 const HeroContainer = styled.section`
   height: 400px;
   width: 100%;
-  background-image: url('/assets/duotone.png');
+  background-image: url('./assets/duotone.png');
   background-size: cover;
 `;
 

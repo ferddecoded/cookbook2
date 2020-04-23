@@ -69,10 +69,10 @@ const App = () => {
         <Router>
           <Nav />
           <Switch>
-            <Route exact path="/" component={Home} />
             <Route exact path="/signin" component={Signin} />
             <Route exact path="/favorites" component={Favorites} />
             <Route exact path="/recipeItem" component={RecipeItem} />
+            <Route path="/" component={Home} />
           </Switch>
           <GlobalStyle />
         </Router>
