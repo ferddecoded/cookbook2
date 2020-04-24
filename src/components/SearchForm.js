@@ -74,20 +74,24 @@ const TextInput = styled.input`
   border-radius: 5px;
 `;
 
+const ErrorContainer = styled.div`
+  height: 30px;
+  color: ${({ theme }) => theme.red};
+`;
+
 const SearchForm = ({ searchRecipes }) => {
   const [ingredient, setIngredient] = useState('');
   const [dietary, setDietary] = useState('');
   const [selectedHealth, setSelectedHealth] = useState([]);
+  const [ingredientError, hasIngredientError] = useState(false);
 
   const updateIngredient = e => setIngredient(e.target.value);
 
   const updateHealth = e => {
     const newHealthArray = [...selectedHealth];
-    console.log(e.target.id);
     const healthBeenSet = selectedHealth.some(
       allergen => allergen === e.target.id,
     );
-    console.log(healthBeenSet);
     healthBeenSet
       ? setSelectedHealth(
           newHealthArray.filter(allergen => allergen !== e.target.id),
@@ -97,13 +101,16 @@ const SearchForm = ({ searchRecipes }) => {
 
   const updateDietary = e => {
     const dietaryBeenSet = dietary === e.target.id;
-    console.log(dietaryBeenSet);
     dietaryBeenSet ? setDietary('') : setDietary(e.target.id);
   };
 
   const requestRcipes = e => {
     e.preventDefault();
-    searchRecipes(ingredient, dietary, selectedHealth);
+    if (!ingredient) {
+      return hasIngredientError(true);
+    } else {
+      searchRecipes(ingredient, dietary, selectedHealth);
+    }
   };
 
   const health = [
@@ -146,9 +153,13 @@ const SearchForm = ({ searchRecipes }) => {
               value={ingredient}
               type="text"
               id="igredient"
-              onChange={updateIngredient}
+              onChange={(e) => {
+                hasIngredientError(false);
+                updateIngredient(e);
+              }}
             />
           </FormGroup>
+          <ErrorContainer>{ingredientError && 'You must enter an ingredient to search'}</ErrorContainer>
           <div>
             <h3>Dietary Restrictions</h3>
             <FormGroup>

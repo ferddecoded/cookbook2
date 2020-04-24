@@ -25,7 +25,7 @@ const fetchRecipes = async (
 
     const searchQueryUrl = `${searchRecipesUrl}${ingredientQuery}${appId}${appKey}${dietQuery}${healthQuery}`;
 
-    const response = await axios.get(searchQueryUrl).catch(err => ({ data: {  error: 'Oops, something went wrong with your search.', hits: [] }}));
+    const response = await axios.get(searchQueryUrl).catch(err => ({ data: {  error: 'Oops, No Results were found, please try another search.', hits: [] }}));
     return response;
   };
 
@@ -41,6 +41,7 @@ export const AppProvider = ({ children }) => {
     const { data } = await fetchRecipes(ingredient, dietarySelection, healthOptionsArray);
     if (data.error) {
       setHasSearchError(data.error);
+      setFetchedRecipes([]);
     } else {
       setFetchedRecipes(data.hits);
     }
