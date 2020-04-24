@@ -8,6 +8,7 @@ import Link from './Link';
 import Image from './Image';
 import Button from './Button';
 import Modal from './Modal';
+import MessageBox from './MessageBox';
 
 const StyledAppWrapper = styled.div`
   max-width: 1000px;
@@ -122,6 +123,14 @@ const RecipeItem = () => {
       setRecipe(currentRecipe);
     }
   }, [currentRecipe]);
+
+  if (!Object.keys(currentRecipe).length) {
+    return (
+      <StyledAppWrapper>
+        <MessageBox message="Looks like theres no selected recipes. Search a recipe to find information on it." />
+      </StyledAppWrapper>
+    );
+  }
 
   const updateIngrdientList = (index) => {
     const updatedRecipe = {...recipe};

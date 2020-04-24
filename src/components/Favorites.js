@@ -1,9 +1,14 @@
 import React, { useContext } from 'react';
 import { AppContext } from './Context';
 import Modal from './Modal';
+import styled from 'styled-components';
 
 import FavoriteItem from './FavoriteItem';
 import Button from './Button';
+
+const StyledButton = styled(Button)`
+  margin: 40px 0px;
+`;
 
 const Favorites = ({ history }) => {
   const { currentUser, userRecipes } = useContext(AppContext);
@@ -25,7 +30,7 @@ const Favorites = ({ history }) => {
         bodyContent={(
           <>
             <h3>You must be signed in first!</h3>
-            <Button onClick={redirectToSignIn}>Go To Sign In</Button>
+            <StyledButton onClick={redirectToSignIn}>Sign In</StyledButton>
           </>
         )}
     />);

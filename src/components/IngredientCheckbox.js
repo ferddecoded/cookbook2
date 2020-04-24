@@ -22,20 +22,21 @@ const Label = styled.label`
   position: relative;
   cursor: pointer;
   font-size: ${({ theme }) => theme.label.fontSize};
-  color: 'black';
+  color: ${({ theme }) => theme.black};
 
   &::before {
   content:'';
   -webkit-appearance: none;
   background-color: transparent;
   border: 2px solid ${({ theme }) => theme.secondary};
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
   padding: 5px;
   display: inline-block;
   position: relative;
   vertical-align: middle;
   cursor: pointer;
   margin-right: 5px;
+  height: 20px;
+  width: 20px;
   }
 
   ${({ checked }) => checked && css`
@@ -43,10 +44,10 @@ const Label = styled.label`
       content: '';
       display: block;
       position: absolute;
-      top: 2px;
-      left: 5px;
-      width: 4px;
-      height: 8px;
+      top: 0px;
+      left: 7px;
+      width: 6px;
+      height: 14px;
       border: solid ${({ theme }) => theme.secondary};
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);

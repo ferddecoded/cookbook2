@@ -2,29 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 import SearchItem from './SearchItem';
+import MessageBox from './MessageBox';
 
 const Wrapper = styled.div`
   margin: 20px auto;
   width: 90%;
 `;
-
-const NoResultsContainer = styled('div')`
-  margin: 20px 0px;
-  padding: 20px 0px;
-  width: 100%;
-  color: grey;
-  background-color: ${({ theme }) => theme.lightgrey};
-  border-radius: 10px;
-  text-align: center;
-`;
-
-const NoResults = ({ message }) => {
-  return(
-    <NoResultsContainer>
-      {message}
-    </NoResultsContainer>
-  );
-};
 
 const Container = styled('section')`
   margin: 0px 0px 20px;
@@ -51,7 +34,7 @@ const RecipeContainer = styled.div`
 const RecipeItems = ({ recipes, hasSearchError }) => {
   let content;
   if (!recipes || !recipes.length) {
-    content = <NoResults message={hasSearchError || 'Please Enter A Search'} />;
+    content = <MessageBox message={hasSearchError || 'Please Enter A Search'} />;
   }else {
     content = recipes.map((recipe, i) => {
           return (
