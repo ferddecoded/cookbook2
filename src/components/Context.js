@@ -79,6 +79,7 @@ export const AppProvider = ({ children }) => {
     const dbRefUser = firebase.database().ref(`users/${firebase.auth().currentUser.uid}`);
     dbRefUser.on("value", snapshot => {
       const data = snapshot.val();
+      // eslint-disable-next-line no-unused-vars
       for (let key in data) {
         if (data[key].id === id) {
           firebase

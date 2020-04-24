@@ -41,6 +41,19 @@ const StyledCookingSVG = styled(CookingSvg)`
   }
 `;
 
+const StyledHiddenButton = styled(Button)`
+  opacity: ${({ show }) => show ? '1' : '0'};
+  height: 0;
+  overflow: hidden;
+  position: relative;
+  top: -1000px;
+`;
+
+const StyledButton = styled(Button)`
+  position: relative;
+  top: -20px;
+`;
+
 const Signin = () => {
   const { setCurrentUser, currentUser } = useContext(AppContext);
   const logIn = () => {
@@ -63,6 +76,7 @@ const Signin = () => {
   const logOut = () => {
     firebase.auth().signOut();
   };
+
   return (
     <Container>
       <ImageContainer>
@@ -71,7 +85,9 @@ const Signin = () => {
       <MessageContainer>
         <h3>Make sure to Sign In to save all of your favorite recipes and keep track of your checklists</h3>
       </MessageContainer>
-      {currentUser ? <Button onClick={logOut}>Sign Out</Button> : <Button onClick={logIn}>Sign In</Button>}
+      {/* For some reason this button needs to be here in order for login button to work on mobile */}
+      <StyledHiddenButton onClick={logIn}>Sign In</StyledHiddenButton>
+      <StyledButton onClick={currentUser ? logOut : logIn}>{currentUser ? 'Sign Out' : 'Sign In'}</StyledButton>
     </Container>
   );
 };
