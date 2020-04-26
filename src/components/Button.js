@@ -5,12 +5,17 @@ export default styled.button`
   border-radius: 10px;
   margin: 20px 0px;
   font-family: 'Arimo';
-  background-color: ${props => props.theme.primary};
-  color: ${props => props.theme.secondary};
+  background-color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.secondary};
   border: none;
   font-size: 16px;
   font-weight: 700;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: ${({ theme }) => theme.bsSm};
   cursor: pointer;
   position: relative;
+  transition: .4s all;
+
+  &:hover {
+    box-shadow: ${({ theme }) => theme.bsLg};
+  }
 `;

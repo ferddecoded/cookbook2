@@ -14,7 +14,7 @@ const Container = styled.div`
   width: 66.66%;
   margin: 20px auto;
   background: ${({ theme }) => theme.white};
-  box-shadow: t${({ theme }) => theme.bs};
+  box-shadow: ${({ theme }) => theme.bsLg};
   border-radius: 25px;
   padding: 20px;
 `;

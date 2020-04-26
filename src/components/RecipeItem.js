@@ -22,7 +22,7 @@ const Container = styled.section`
   justify-content: center;
   align-content: center;
   padding: 20px;
-  box-shadow: ${({ theme }) => theme.bs};
+  box-shadow: ${({ theme }) => theme.bsMd};
   background-color: ${({ theme }) => theme.white};
 
   @media (max-width: 768px) {

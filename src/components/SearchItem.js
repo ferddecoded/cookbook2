@@ -11,7 +11,7 @@ import Modal from './Modal';
 
 const Container = styled.div`
   border-radius: 10px;
-  box-shadow: ${({ theme }) => theme.bs};
+  box-shadow: ${({ theme }) => theme.bsMd};
   overflow: hidden;
   border: 5px solid transparent;
   transition: .3s all;

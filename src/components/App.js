@@ -21,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 10px;
   }
   *, *:before, *:after {
-    box-sizing: inherit;
+    box-sizing: border-box;
   }
   body {
     padding: 0;
@@ -40,6 +40,12 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const bs = {
+  bsSm: '0 1px 4px 0 rgba(0, 0, 0, .1)',
+  bsMd: '0 2px 6px 0 rgba(0, 0, 0, 0.2)',
+  bsLg: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
+};
+
 const theme = {
   primary: '#f0cb37',
   secondary: '#6736dd',
@@ -51,7 +57,6 @@ const theme = {
   lightgrey: '#E1E1E1',
   offWhite: '#f7f7f7',
   maxWidth: '1000px',
-  bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
   opaquePrimary: 'rgb(102,53,218, .7)',
   label: {
     fontSize: '12px',
@@ -60,6 +65,7 @@ const theme = {
     fontSize: '14px',
     fontWeight: 700,
   },
+  ...bs,
 };
 
 const App = () => {
