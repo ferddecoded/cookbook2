@@ -60,6 +60,10 @@ const SelectContainer = styled.span`
     highlight ? theme.secondary : theme.black};
   background-color: ${({ highlight, theme }) =>
     highlight ? theme.primary : theme.white};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.primary};
+  }
 `;
 
 const StyledButton = styled(Button)`

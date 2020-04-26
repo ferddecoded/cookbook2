@@ -17,14 +17,14 @@ const Favorites = ({ history }) => {
     history.push('/signin');
   };
 
-  const delayRedirectToSignIn = () => {
-    setTimeout(() => {
-      redirectToSignIn();
-    }, 3000);
-  };
+  // const delayRedirectToSignIn = () => {
+  //   setTimeout(() => {
+  //     redirectToSignIn();
+  //   }, 3000);
+  // };
 
   if (!currentUser) {
-    delayRedirectToSignIn();
+    // delayRedirectToSignIn();
     return (<Modal
         headerContent={<h2>OOPS ...</h2>}
         bodyContent={(

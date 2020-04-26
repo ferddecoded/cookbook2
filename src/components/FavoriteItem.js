@@ -34,8 +34,11 @@ const StyledImage = styled(Image)`
 `;
 
 const TextContainer = styled.div`
-  padding: 10px 20px;
+  padding: 0px 20px;
   width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const RecipeHeading = styled.h2`
@@ -90,7 +93,9 @@ const FavoriteItem = (recipe) => {
             <NavLink to={`/recipeItem/`} onClick={() => {
               const newRecipe = {...recipe};
               updateCurrentRecipe(newRecipe);
-            }}>View More ></NavLink>
+            }}>
+              View More Details >
+            </NavLink>
           </TextContainer>
         </FlexContainer>
       </Container>
