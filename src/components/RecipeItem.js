@@ -80,7 +80,7 @@ const RecipeHeading = styled.h2`
   font-family: 'Pacifico', cursive;
 `;
 
-const IngredientHeading = styled.h3`
+const Heading = styled.h3`
   font-weight: 500;
 `;
 
@@ -90,6 +90,19 @@ const IngredientList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   margin: 0;
+`;
+
+const LabelListContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
+const LabelListItem = styled.span`
+  background-color: ${({ theme }) => theme.secondary};
+  color: ${({ theme }) => theme.white};
+  padding: 5px 10px;
+  margin: 5px 10px 5px 0px;
 `;
 
 const ToggleRecipeButton = styled(Button)`
@@ -158,6 +171,8 @@ const RecipeItem = () => {
   if (!currentRecipe || (Object.keys(currentRecipe).length === 0 && currentRecipe.constructor === Object)) {
     return null;
   }
+
+  console.log({ recipe })
   
   return (
     <>
@@ -171,19 +186,26 @@ const RecipeItem = () => {
         )}
       />}
       <StyledAppWrapper>
+
         <Container>
+
           <GraphicContainer />
+
           <RecipeContainer>
+
             <ImageContainer>
               <Image
                 src={image}
               />
             </ImageContainer>
+
             <TextContainer>
               <RecipeHeading>
                 {label}
               </RecipeHeading>
-              <IngredientHeading>Ingredients:</IngredientHeading>
+
+              <Heading>Ingredients:</Heading>
+
               <IngredientList>
                 {recipe?.ingredientLines?.map(({ name, checked }, i) => {
                   return (
@@ -191,16 +213,31 @@ const RecipeItem = () => {
                   );
                 })}
               </IngredientList>
+
+                <Heading>Health Labels:</Heading>
+                <LabelListContainer>
+                  {healthLabels.map(label => <LabelListItem>{label}</LabelListItem>)}
+                </LabelListContainer>
+
+                <Heading>Diet Labels:</Heading>
+                <LabelListContainer>
+                  {dietLabels.map(label => <LabelListItem>{label}</LabelListItem>)}
+                </LabelListContainer>
+
               <Link href={url}>View Recipe ></Link>
             </TextContainer>
+
             <ToggleRecipeButton
               onClick={onClick}
               userRecipeExists={userRecipeExists}
             >
                 {userRecipeExists? 'Remove Recipe' : 'Add Recipe'}
             </ToggleRecipeButton>
+
           </RecipeContainer>
+
         </Container>
+
       </StyledAppWrapper>
     </>
   );
