@@ -221,21 +221,21 @@ const RecipeItem = () => {
                 </IngredientList>
               </Section>  
 
-              {healthLabels.length && (<Section>
+              {healthLabels.length ? (<Section>
                  <Heading>Health Labels:</Heading>
                   <LabelListContainer>
                     {healthLabels.map(label => <LabelListItem>{label}</LabelListItem>)}
                   </LabelListContainer>
-              </Section>)}
+              </Section>) : null}
 
-              {dietLabels.length && (
+              {dietLabels.length ? (
                 <Section>
                   <Heading>Diet Labels:</Heading>
                   <LabelListContainer>
                     {dietLabels.map(label => <LabelListItem>{label}</LabelListItem>)}
                   </LabelListContainer>
                 </Section>
-              )}
+              ) : null}
 
               <Section><NutritionText calories={calories} totalTime={totalTime} /></Section>
 
