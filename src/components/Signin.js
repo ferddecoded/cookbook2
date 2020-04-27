@@ -12,7 +12,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 66.66%;
-  margin: 20px auto;
+  margin: 40px auto;
   background: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.bsLg};
   border-radius: 25px;
