@@ -9,6 +9,7 @@ import Image from './Image';
 import Button from './Button';
 import Modal from './Modal';
 import MessageBox from './MessageBox';
+import NutritionText from './NutritionText';
 
 const StyledAppWrapper = styled.div`
   max-width: 1000px;
@@ -76,12 +77,16 @@ const TextContainer = styled.div`
   }
 `;
 
+const Section = styled.section`
+  margin: 10px 0px;
+`;
+
 const RecipeHeading = styled.h2`
   font-family: 'Pacifico', cursive;
 `;
 
 const Heading = styled.h3`
-  font-weight: 500;
+  font-weight: 700;
 `;
 
 const IngredientList = styled.ul`
@@ -204,25 +209,31 @@ const RecipeItem = () => {
                 {label}
               </RecipeHeading>
 
-              <Heading>Ingredients:</Heading>
+              <Section>
+                <Heading>Ingredients:</Heading>
+  
+                <IngredientList>
+                  {recipe?.ingredientLines?.map(({ name, checked }, i) => {
+                    return (
+                      <IngredientCheckbox id={name} key={i.toString()} checked={checked} onChange={updateIngrdientList} ingredientIndex={i} />
+                    );
+                  })}
+                </IngredientList>
+  
+                 <Heading>Health Labels:</Heading>
+                  <LabelListContainer>
+                    {healthLabels.map(label => <LabelListItem>{label}</LabelListItem>)}
+                  </LabelListContainer>
+              </Section>
 
-              <IngredientList>
-                {recipe?.ingredientLines?.map(({ name, checked }, i) => {
-                  return (
-                    <IngredientCheckbox id={name} key={i.toString()} checked={checked} onChange={updateIngrdientList} ingredientIndex={i} />
-                  );
-                })}
-              </IngredientList>
+                <Section>
+                  <Heading>Diet Labels:</Heading>
+                  <LabelListContainer>
+                    {dietLabels.map(label => <LabelListItem>{label}</LabelListItem>)}
+                  </LabelListContainer>
+                </Section>
 
-                <Heading>Health Labels:</Heading>
-                <LabelListContainer>
-                  {healthLabels.map(label => <LabelListItem>{label}</LabelListItem>)}
-                </LabelListContainer>
-
-                <Heading>Diet Labels:</Heading>
-                <LabelListContainer>
-                  {dietLabels.map(label => <LabelListItem>{label}</LabelListItem>)}
-                </LabelListContainer>
+                <Section><NutritionText calories={calories} totalTime={totalTime} /></Section>
 
               <Link href={url}>View Recipe ></Link>
             </TextContainer>

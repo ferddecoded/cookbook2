@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import { AppContext } from './Context';
-import IngredientCheckbox from './IngredientCheckbox';
 import Image from './Image';
 import ChevronLink from './ChevronLink';
+import NutritionText from './NutritionText';
 
 const StyledAppWrapper = styled.div`
   max-width: 1000px;
@@ -39,22 +39,14 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const RecipeHeading = styled.h2`
   font-family: 'Pacifico', cursive;
-`;
-
-const IngredientHeading = styled.h3`
-  font-weight: 500;
-`;
-
-const IngredientList = styled.ul`
-  padding-left: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0;
 `;
 
 const FavoriteItem = (recipe) => {
@@ -64,7 +56,7 @@ const FavoriteItem = (recipe) => {
     return null;
   }
   
-  const { label, image } = recipe;
+  const { label, image, calories, totalTime } = recipe;
   
   return (
     <StyledAppWrapper>
@@ -79,17 +71,12 @@ const FavoriteItem = (recipe) => {
             <RecipeHeading>
               {label}
             </RecipeHeading>
-            <IngredientHeading>Ingredients:</IngredientHeading>
-            <IngredientList>
-              {recipe?.ingredientLines?.length > 0 && recipe.ingredientLines.map(({ name, checked }, i) => {
-                if (i > 3) {
-                  return null;
-                }
-                return (
-                  <IngredientCheckbox id={name} key={i.toString()} checked={checked} ingredientIndex={i} onChange={() => null} disabled />
-                );
-              })}
-            </IngredientList>
+            <TextContainer>
+              <NutritionText
+                calories={calories}
+                totalTime={totalTime}
+              />
+            </TextContainer>
             <ChevronLink to={`/recipeItem/`} onClick={() => {
               const newRecipe = {...recipe};
               updateCurrentRecipe(newRecipe);

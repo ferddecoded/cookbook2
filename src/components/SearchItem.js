@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 import Button from './Button';
 import Image from './Image';
 import Modal from './Modal';
+import NutritionText from './NutritionText';
 
 
 const Container = styled.div`
@@ -99,22 +100,22 @@ const MobileLabel = styled.h3`
   font-size: 16px;
 `;
 
-const NutritionText = styled.div`
-  font-size: 14px;
-  display: flex;
-  justify-content: space-between;
-  height: 100%;
-`;
+// const NutritionText = styled.div`
+//   font-size: 14px;
+//   display: flex;
+//   justify-content: space-between;
+//   height: 100%;
+// `;
 
-const NutritionLabel = styled.span`
-  font-size: 18px;
-  display: inline-block;
-  font-weight: bold;
-`;
+// const NutritionLabel = styled.span`
+//   font-size: 18px;
+//   display: inline-block;
+//   font-weight: bold;
+// `;
 
-const NutritionValue = styled.span`
-  display: block;
-`;
+// const NutritionValue = styled.span`
+//   display: block;
+// `;
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -142,14 +143,14 @@ const SearchItem = ({ item }) => {
   const id = item.recipe.ingredientLines?.join().trim();
   const userRecipeExists = userRecipes.find((userRecipe) => userRecipe.id === id);
 
-  const nutritionHtml = (calories, totalTime) => {
-    return(
-      <NutritionText>
-        <div><NutritionLabel>Calories:</NutritionLabel><NutritionValue>&nbsp;{Math.round(calories)}&nbsp;cals</NutritionValue></div>
-        <div><NutritionLabel>Total Time:</NutritionLabel><NutritionValue>&nbsp;{totalTime}&nbsp;mins</NutritionValue></div>
-      </NutritionText>
-    );
-  };
+  // const nutritionHtml = (calories, totalTime) => {
+  //   return(
+  //     <NutritionText>
+  //       <div><NutritionLabel>Calories:</NutritionLabel><NutritionValue>&nbsp;{Math.round(calories)}&nbsp;cals</NutritionValue></div>
+  //       <div><NutritionLabel>Total Time:</NutritionLabel><NutritionValue>&nbsp;{totalTime}&nbsp;mins</NutritionValue></div>
+  //     </NutritionText>
+  //   );
+  // };
 
   const onClick = (recipe) => {
     if (currentUser) {
@@ -201,7 +202,7 @@ const SearchItem = ({ item }) => {
           </ImageContainer>
           <TextContainer>
             <MobileLabelContainer><MobileLabel>{label}</MobileLabel></MobileLabelContainer>
-            {nutritionHtml(calories, totalTime)}
+            <NutritionText calories={calories} totalTime={totalTime} />
           </TextContainer>
         </Container>
       </NavLink>
