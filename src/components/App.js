@@ -8,6 +8,7 @@ import Home from './Home';
 import Signin from './Signin';
 import Favorites from './Favorites';
 import RecipeItem from './RecipeItem';
+import Footer from './Footer';
 
 export const AppWrapper = styled.div`
   max-width: 1000px;
@@ -73,6 +74,7 @@ const App = () => {
     <AppProvider>
       <ThemeProvider theme={theme}>
         <Router>
+          <GlobalStyle />
           <Nav />
           <Switch>
             <Route exact path="/signin" component={Signin} />
@@ -80,8 +82,8 @@ const App = () => {
             <Route exact path="/recipeItem" component={RecipeItem} />
             <Route path="/" component={Home} />
           </Switch>
-          <GlobalStyle />
         </Router>
+        <Footer />
       </ThemeProvider>
     </AppProvider>
   );
