@@ -119,7 +119,6 @@ const SearchForm = ({ searchRecipes }) => {
       if (recipesContainer) {
         scrollPosition = recipesContainer.getBoundingClientRect().top;
       }
-      console.log({ scrollPosition })
       setTimeout(() => {
         window.scrollTo({
           top: scrollPosition,
