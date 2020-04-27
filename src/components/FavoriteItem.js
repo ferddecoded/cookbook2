@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { AppContext } from './Context';
 import IngredientCheckbox from './IngredientCheckbox';
 import Image from './Image';
-import { NavLink } from 'react-router-dom';
+import ChevronLink from './ChevronLink';
 
 const StyledAppWrapper = styled.div`
   max-width: 1000px;
@@ -90,12 +90,12 @@ const FavoriteItem = (recipe) => {
                 );
               })}
             </IngredientList>
-            <NavLink to={`/recipeItem/`} onClick={() => {
+            <ChevronLink to={`/recipeItem/`} onClick={() => {
               const newRecipe = {...recipe};
               updateCurrentRecipe(newRecipe);
             }}>
-              View More Details >
-            </NavLink>
+              View More Details
+            </ChevronLink>
           </TextContainer>
         </FlexContainer>
       </Container>
