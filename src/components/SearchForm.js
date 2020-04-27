@@ -114,6 +114,18 @@ const SearchForm = ({ searchRecipes }) => {
       return hasIngredientError(true);
     } else {
       searchRecipes(ingredient, dietary, selectedHealth);
+      const recipesContainer = document.getElementById('recipe-item-container');
+      let scrollPosition;
+      if (recipesContainer) {
+        scrollPosition = recipesContainer.getBoundingClientRect().top;
+      }
+      console.log({ scrollPosition })
+      setTimeout(() => {
+        window.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth',
+        });
+      }, 1000);
     }
   };
 

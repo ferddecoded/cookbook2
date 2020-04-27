@@ -46,7 +46,7 @@ const RecipeItems = ({ recipes, hasSearchError }) => {
   }
   return (
     <Wrapper>
-      <Container>
+      <Container id="recipe-item-container">
         {content}
       </Container>
     </Wrapper>
