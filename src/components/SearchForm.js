@@ -117,14 +117,14 @@ const SearchForm = ({ searchRecipes }) => {
       const recipesContainer = document.getElementById('recipe-item-container');
       let scrollPosition;
       if (recipesContainer) {
-        scrollPosition = recipesContainer.getBoundingClientRect().top;
+        scrollPosition = recipesContainer.getBoundingClientRect().top + 200;
       }
       setTimeout(() => {
         window.scrollTo({
           top: scrollPosition,
           behavior: 'smooth',
         });
-      }, 1000);
+      }, 1500);
     }
   };
 

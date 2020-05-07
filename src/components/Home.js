@@ -15,6 +15,20 @@ const HeroContainer = styled.section`
   width: 100%;
   background-image: url('./assets/duotone.png');
   background-size: cover;
+
+  @media (max-width: 768px) {
+    height: 500px;
+  }
+
+  @media (max-width: 450px) {
+    height: 550px;
+  }
+`;
+
+const InstructionContainer = styled.div`
+  padding: 10px;
+  background-color: ${({ theme }) => theme.opaqueGrey};
+  border-radius: 10px;
 `;
 
 const IntroductorySection = styled.section`
@@ -43,11 +57,17 @@ const Home = () => {
         <AppWrapper>
           <IntroductorySection>
             <h1>Search, Shop, Dine</h1>
-            <p>
-              Welcome, this App allows you to create a list of all your favorite
-              recipes. Store them, access them whenever you want and update the
-              shopping list of ingredients.
-            </p>
+            <InstructionContainer>
+              <p>
+                Search a recipe based on the ingredient you enter, also add dietary restrictions or health options of your choosing to the search.
+              </p>
+              <p>
+                Check out your recipe and view more details by clicking the recipe.
+              </p>
+              <p>
+                You can see the ingredient list for the recipe and add it to your favorites to view later.
+              </p>
+            </InstructionContainer>
           </IntroductorySection>
         </AppWrapper>
       </HeroContainer>

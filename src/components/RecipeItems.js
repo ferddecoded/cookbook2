@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import SearchItem from './SearchItem';
 import MessageBox from './MessageBox';
+import { AppWrapper } from './App';
 
 const Wrapper = styled.div`
   margin: 20px auto;
@@ -14,14 +15,11 @@ const Container = styled('section')`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 20px;
 `;
 
 const RecipeContainer = styled.div`
   margin: 0px 20px 20px;
-  @media (max-width: 1100px) {
   width: calc(33.33% - 40px);
-  }
   @media (max-width: 768px) {
     width: calc(50% - 40px);
   }
@@ -31,25 +29,35 @@ const RecipeContainer = styled.div`
   }
 `;
 
+const Heading = styled.h2`
+  width: 155px;
+  margin: 0 auto;
+`;
+
 const RecipeItems = ({ recipes, hasSearchError }) => {
   let content;
   if (!recipes || !recipes.length) {
     content = <MessageBox message={hasSearchError || 'Please Enter A Search'} />;
-  }else {
-    content = recipes.map((recipe, i) => {
-          return (
-            <RecipeContainer>
-              <SearchItem item={recipe} key={i} />
-            </RecipeContainer>
-          );
-        })
+  } else {
+    content = (
+      <>
+        <Heading>Your Recipes:</Heading>
+        <Container>
+          {recipes.map((recipe, i) => {
+            return (
+              <RecipeContainer key={i}>
+                <SearchItem item={recipe} />
+              </RecipeContainer>
+            );
+          })}
+        </Container>
+      </>
+    );
   }
   return (
-    <Wrapper>
-      <Container id="recipe-item-container">
-        {content}
-      </Container>
-    </Wrapper>
+    <AppWrapper id="recipe-item-container">
+      {content}
+    </AppWrapper>
   );
 };
 

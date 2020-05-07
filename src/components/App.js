@@ -59,6 +59,7 @@ const theme = {
   offWhite: '#f7f7f7',
   maxWidth: '1000px',
   opaquePrimary: 'rgb(102,53,218, .7)',
+  opaqueGrey: 'rgba(236, 236, 236, .6)',
   label: {
     fontSize: '12px',
   },
