@@ -5,6 +5,8 @@ import styled from 'styled-components';
 
 import FavoriteItem from './FavoriteItem';
 import Button from './Button';
+import InstructionContainer from './InstructionContainer';
+import { AppWrapper } from './App';
 
 const StyledButton = styled(Button)`
   margin: 40px 0px;
@@ -17,14 +19,7 @@ const Favorites = ({ history }) => {
     history.push('/signin');
   };
 
-  // const delayRedirectToSignIn = () => {
-  //   setTimeout(() => {
-  //     redirectToSignIn();
-  //   }, 3000);
-  // };
-
   if (!currentUser) {
-    // delayRedirectToSignIn();
     return (<Modal
         headerContent={<h2>OOPS ...</h2>}
         bodyContent={(
@@ -35,7 +30,12 @@ const Favorites = ({ history }) => {
         )}
     />);
   }
-  return userRecipes.map((recipe) => <FavoriteItem {...recipe} />);
+  return <AppWrapper>
+    <InstructionContainer>
+      <p>Below are your favorited recipes</p>
+    </InstructionContainer>
+    {userRecipes.map((recipe) => <FavoriteItem {...recipe} />)}
+  </AppWrapper>;
 };
 
 export default Favorites;

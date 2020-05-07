@@ -5,11 +5,6 @@ import SearchItem from './SearchItem';
 import MessageBox from './MessageBox';
 import { AppWrapper } from './App';
 
-const Wrapper = styled.div`
-  margin: 20px auto;
-  width: 90%;
-`;
-
 const Container = styled('section')`
   margin: 0px 0px 20px;
   display: flex;

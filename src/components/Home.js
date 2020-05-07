@@ -4,6 +4,7 @@ import { AppWrapper } from './App';
 import SearchForm from './SearchForm';
 import { AppContext } from './Context';
 import RecipeItems from './RecipeItems';
+import InstructionContainer from './InstructionContainer';
 
 const Main = styled.main`
   padding: 0;
@@ -23,12 +24,6 @@ const HeroContainer = styled.section`
   @media (max-width: 450px) {
     height: 550px;
   }
-`;
-
-const InstructionContainer = styled.div`
-  padding: 10px;
-  background-color: ${({ theme }) => theme.opaqueGrey};
-  border-radius: 10px;
 `;
 
 const IntroductorySection = styled.section`
