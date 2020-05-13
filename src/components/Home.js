@@ -66,7 +66,7 @@ const Home = () => {
           </IntroductorySection>
         </AppWrapper>
       </HeroContainer>
-      <SearchForm searchRecipes={searchRecipes} />
+      <SearchForm searchRecipes={searchRecipes} recipes={recipes} />
       <RecipeItems recipes={recipes} hasSearchError={hasSearchError} />
     </Main>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { AppWrapper } from './App';
@@ -83,7 +83,7 @@ const ErrorContainer = styled.div`
   color: ${({ theme }) => theme.red};
 `;
 
-const SearchForm = ({ searchRecipes }) => {
+const SearchForm = ({ searchRecipes, recipes }) => {
   const [ingredient, setIngredient] = useState('');
   const [dietary, setDietary] = useState('');
   const [selectedHealth, setSelectedHealth] = useState([]);
@@ -114,19 +114,22 @@ const SearchForm = ({ searchRecipes }) => {
       return hasIngredientError(true);
     } else {
       searchRecipes(ingredient, dietary, selectedHealth);
+    }
+  };
+
+  useEffect(() => {
+    if (recipes?.length) {
       const recipesContainer = document.getElementById('recipe-item-container');
       let scrollPosition;
       if (recipesContainer) {
-        scrollPosition = recipesContainer.getBoundingClientRect().top + 200;
+        scrollPosition = recipesContainer.getBoundingClientRect().top;
       }
-      setTimeout(() => {
-        window.scrollTo({
-          top: scrollPosition,
-          behavior: 'smooth',
-        });
-      }, 1500);
+      window.scrollTo({
+        top: scrollPosition,
+        behavior: 'smooth',
+      });
     }
-  };
+  }, [recipes]);
 
   const health = [
     { id: 'vegan', title: 'Vegan' },
