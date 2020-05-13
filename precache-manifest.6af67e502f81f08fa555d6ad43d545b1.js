@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "cb80c4e867b09f7a20975cba5377f423",
+    "revision": "76ef620356d1e5b61561b7a703c79d8c",
     "url": "/cookbook2/index.html"
   },
   {
-    "revision": "79b9929d5bd541db9ed1",
+    "revision": "101d1516c80ddb7e14a3",
     "url": "/cookbook2/static/css/main.5ecd60fb.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cookbook2/static/js/2.e3722115.chunk.js"
   },
   {
-    "revision": "79b9929d5bd541db9ed1",
-    "url": "/cookbook2/static/js/main.becbac5e.chunk.js"
+    "revision": "101d1516c80ddb7e14a3",
+    "url": "/cookbook2/static/js/main.77d45617.chunk.js"
   },
   {
     "revision": "8b079537b3d5f0bd996a",
